@@ -3,6 +3,7 @@ from matrix import *
 from draw import *
 
 def parse_file( fname, points, transform, screen, color ):
+    print transform
     fi =  open(fname, "r")
     lines = []
     for line in fi:
@@ -11,14 +12,14 @@ def parse_file( fname, points, transform, screen, color ):
     i = 0
     while( i < len(lines) ):
         cmd = lines[i]
-        print cmd
-        no_args = ["ident", "apply","quit","display","save"]    
+        no_args = ["ident", "apply","quit","display","save",""]    
         if (cmd in no_args ):
             if (cmd == "ident"):
-                transform = ident( points )
+                ident( transform )
             elif (cmd == "apply"):
                 matrix_mult(transform, points)
             elif (cmd == "display"):
+                clear_screen(screen)
                 draw_lines(points, screen, color)
                 display(screen)
             elif(cmd == "save"):
@@ -30,6 +31,8 @@ def parse_file( fname, points, transform, screen, color ):
         else:
             curr_args = lines[i + 1].split(" ")
             curr_args = [float(j) for j in curr_args]
+            print cmd
+            print curr_args
             if (cmd == "line"):
                 add_edge(points,curr_args[0],curr_args[1],curr_args[2],
                          curr_args[3],curr_args[4],curr_args[5])
@@ -47,13 +50,13 @@ def parse_file( fname, points, transform, screen, color ):
                 scl = make_scale(curr_args[0],curr_args[1],curr_args[2])
                 matrix_mult(scl, transform)
             if (cmd == "xrotate"):
-                xr = make_rotX(curr_args[0])
+                xr = make_rotX(math.radians(curr_args[0]))
                 matrix_mult(xr, transform)
             if (cmd == "yrotate"):
-                yr = make_rotY(curr_args[0])
+                yr = make_rotY(math.radians(curr_args[0]))
                 matrix_mult(yr, transform)
             if (cmd == "zrotate"):
-                zr = make_rotZ(curr_args[0])
+                zr = make_rotZ(math.radians(curr_args[0]))
                 matrix_mult(zr, transform)
             if (cmd == "translate"):
                 trn = make_translate(curr_args[0], curr_args[1], curr_args[2])
