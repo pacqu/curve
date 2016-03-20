@@ -3,10 +3,42 @@ from matrix import *
 import math
 
 def add_circle( points, cx, cy, cz, r, step ):
-    pass
-
+    #t = 0
+    for t in range(0, 360, step):
+        x0 = ( r * math.sin(math.radians(t)) ) + cx  
+        x1 = ( r * math.sin(math.radians(t + step)) ) + cx  
+        y0 = ( r * math.cos(math.radians(t)) ) + cy  
+        y1 = ( r * math.cos(math.radians(t + step)) ) + cy  
+        add_edge(points, x0, y0, 0, x1, y1, 0)
+        
 def add_curve( points, x0, y0, x1, y1, x2, y2, x3, y3, step, curve_type ):
-    pass
+    x_coefs = []
+    y_coefs = []
+    if (curve_type == "bezier"):
+        x_coefs = generate_curve_coefs(x0, x1, x2, x3, "bezier")
+        y_coefs = generate_curve_coefs(y0, y1, y2, y3, "bezier")
+    elif (curve_type == "hermite"):
+        x_coefs = generate_curve_coefs(x0, x1, x2, x3, "hermite")
+        y_coefs = generate_curve_coefs(y0, y1, y2, y3, "hermite") 
+    xa = x_coefs[0][0]
+    xb = x_coefs[0][1]
+    xc = x_coefs[0][2]
+    xd = x_coefs[0][3]
+        
+    ya = y_coefs[0][0]
+    yb = y_coefs[0][1]
+    yc = y_coefs[0][2]
+    yd = y_coefs[0][3]
+    
+    t = 0
+    while( (t + step) <=1):
+        x0 = (xa * (t**3) ) + (xb * (t**2) ) + (xc * t) + xd  
+        x1 = (xa * ( (t + step)**3) ) + (xb * ( (t + step)**2) ) + (xc * (t + step)) + xd  
+        y0 = (ya * (t**3) ) + (yb * (t**2) ) + (yc * t) + yd  
+        y1 = (ya * ( (t + step)**3) ) + (yb * ( (t + step)**2) ) + (yc * (t + step)) + yd  
+        add_edge(points, x0, y0, x1, y1, 0, 0)
+        t += step
+
 
 def draw_lines( matrix, screen, color ):
     if len( matrix ) < 2:
@@ -40,7 +72,7 @@ def draw_line( screen, x0, y0, x1, y1, color ):
         y1 = tmp
     
     if dx == 0:
-        y = y0
+        y = y0xo
         while y <= y1:
             plot(screen, color,  x0, y)
             y = y + 1
