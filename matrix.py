@@ -16,15 +16,17 @@ def make_bezier():
 
 def make_hermite():
     h = new_matrix()
-    h[3][0] = 1
-    h[0][1] = 1
-    h[1][1] = 1
-    h[2][1] = 1
+    ident( h )
+    h[0][0] = 2
+    h[1][0] = -2
+    h[2][0] = 1
+    h[3][0] = -1
+    h[0][1] = -3
+    h[1][1] = 3
+    h[2][1] = -2
     h[3][1] = 1
-    h[2][2] = 1
-    h[0][3] = 3
-    h[1][3] = 2
-    h[2][3] = 1
+    h[0][3] = 1
+    h[3][3] = 0
     return h
 
 def generate_curve_coefs( p1, p2, p3, p4, t ):
@@ -128,5 +130,5 @@ def matrix_mult( m1, m2 ):
 
 
 #print_matrix( make_bezier() )
-#print_matrix( make_hermite() )
-print_matrix( generate_curve_coefs(4,5,6,1,"bezier" ) )
+print_matrix( make_hermite() )
+#print_matrix( generate_curve_coefs(4,5,6,1,"bezier" ) )

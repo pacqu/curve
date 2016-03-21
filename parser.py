@@ -40,7 +40,7 @@ def parse_file( fname, points, transform, screen, color ):
                 add_circle( points, curr_args[0],curr_args[1], 0, curr_args[2], 1)
             if (cmd == "hermite"):
                 add_curve( points, curr_args[0], curr_args[1], curr_args[2], curr_args[3],
-                           curr_args[4], curr_args[5], curr_args[6], curr_args[7], .01, 
+                           curr_args[4], curr_args[5], curr_args[6], curr_args[7], .1, 
                            "hermite")
             if (cmd == "bezier"):
                 add_curve( points, curr_args[0], curr_args[1], curr_args[2], curr_args[3],
